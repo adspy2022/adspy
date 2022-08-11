@@ -10,7 +10,6 @@ namespace Leadopogo.Simulator
     public partial class Form1 : Form
     {
         private Form? _activeForm = null;
-        public static IConfigurationRoot? Config;
         public static int ConfigSelection = 0;
         public static bool Stop = false;
         public static string? AuthToken = null;
@@ -19,11 +18,6 @@ namespace Leadopogo.Simulator
 
         public Form1()
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddEnvironmentVariables();
-            Config = builder.Build();
             this.KeyPreview = true;
             InitializeComponent();
             OpenChildForm(new Login()); 
@@ -57,26 +51,26 @@ namespace Leadopogo.Simulator
         }
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (AuthToken == null) return;
-            switch (e.KeyCode)
-            {
-                case Keys.D1:
-                    Console.Beep(1000, 100);
-                    ConfigSelection = 0;
-                    break;
-                case Keys.D2:
-                    ConfigSelection = 1;
-                    Console.Beep(2000, 100);
-                    break;
-                case Keys.D3:
-                    ConfigSelection = 2;
-                    Console.Beep(3000, 100);
-                    break;
-                case Keys.D4:
-                    ConfigSelection = 3;
-                    Console.Beep(4000, 100);
-                    break;
-            }
+            // if (AuthToken == null) return;
+            // switch (e.KeyCode)
+            // {
+            //     case Keys.D1:
+            //         Console.Beep(1000, 100);
+            //         ConfigSelection = 0;
+            //         break;
+            //     case Keys.D2:
+            //         ConfigSelection = 1;
+            //         Console.Beep(2000, 100);
+            //         break;
+            //     case Keys.D3:
+            //         ConfigSelection = 2;
+            //         Console.Beep(3000, 100);
+            //         break;
+            //     case Keys.D4:
+            //         ConfigSelection = 3;
+            //         Console.Beep(4000, 100);
+            //         break;
+            // }
         }
 
         private void button1_Click(object sender, EventArgs e)
