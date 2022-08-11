@@ -124,6 +124,7 @@ namespace Leadopogo.Simulator
             {
                 File.WriteAllText(sfd.FileName, csv.ToString());
             }
+            MessageBox.Show("File saved successfully", "Info", MessageBoxButtons.OK);
         }
 
         private void btn_logInOut_Click(object sender, EventArgs e)
