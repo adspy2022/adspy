@@ -43,6 +43,11 @@ namespace Leadopogo.Simulator
         private async void txtKeyword_KeyPress(object? sender, KeyPressEventArgs e)
         {
             if (e.KeyChar != (char)Keys.Enter) return;
+            if (textBox1.Text.Length < 15)
+            {
+                MessageBox.Show("Invalid ad id!");
+                return;
+            }
             Form1.GetLeads();
         }
 
