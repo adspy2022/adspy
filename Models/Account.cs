@@ -5,7 +5,7 @@ namespace Leadopogo.Simulator.Models;
 public class Account
 {
     [JsonPropertyName("id")]
-    public int Id { get; set; }
+    public long Id { get; set; }
 
     [JsonPropertyName("username")]
     public string Username { get; set; }

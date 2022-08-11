@@ -1,5 +1,6 @@
 using System.Configuration;
 using System.Diagnostics;
+using System.Text;
 using System.Text.Json;
 using System.Timers;
 using Leadopogo.Simulator.Models;
@@ -15,6 +16,7 @@ namespace Leadopogo.Simulator
         public static string? AuthToken = null;
         public static DataGridView? TableView;
         public static Form1 Form1Static;
+        private IList<Account> Leads = new List<Account>();
 
         public Form1()
         {
@@ -93,7 +95,35 @@ namespace Leadopogo.Simulator
 
         private void btnExport_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Successfully exported results to file", "Info", MessageBoxButtons.OK);
+            MessageBox.Show("Please select where to save the file", "Info", MessageBoxButtons.OK);
+            var allLines = from lead in Leads
+                select new object[]
+                {
+                    lead.Id.ToString(),
+                    lead.Username.ToString(),
+                    lead.FullName.ToString(),
+                    lead.Gender.ToString(),
+                    lead.Phone.ToString(),
+                    lead.Email.ToString(),
+                    lead.Business.ToString()
+                };
+            var csv = new StringBuilder();
+            // add header to csv
+            csv.AppendLine("Id,Username,FullName,Gender,Phone,Email,Business");
+            foreach (var allLine in allLines)
+            {
+                csv.AppendLine(string.Join(",", allLine));
+            }
+            var sfd = new SaveFileDialog
+            {
+                Filter = "csv files (*.csv)|*.csv|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = true
+            };
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                File.WriteAllText(sfd.FileName, csv.ToString());
+            }
         }
 
         private void btn_logInOut_Click(object sender, EventArgs e)
@@ -129,18 +159,18 @@ namespace Leadopogo.Simulator
                 return;
             }
             var content = await response.Content.ReadAsStringAsync();
-            var accounts = JsonSerializer.Deserialize<List<Account>>(content);
+            Form1Static.Leads = JsonSerializer.Deserialize<List<Account>>(content);
             
-            if (accounts == null || accounts.Count == 0)
+            if (Form1Static.Leads == null || Form1Static.Leads.Count == 0)
             {
                 MessageBox.Show("No leads found");
                 Environment.Exit(0);
             }
             
-            Form1Static.pgsTotal.Maximum = accounts.Count;
+            Form1Static.pgsTotal.Maximum = Form1Static.Leads.Count;
             TableView?.Rows.Clear();
             var usedAccounts = 0;
-            foreach (var t in accounts)
+            foreach (var t in Form1Static.Leads)
             {
                 if (Stop) break;
                 var delay = random.Next(60000, 90000);
@@ -154,8 +184,8 @@ namespace Leadopogo.Simulator
                 timer.Elapsed += TimerOnElapsed;
                 
                 await Task.Delay(delay);
-                if (accounts == null || usedAccounts >= accounts.Count) continue;
-                TableView?.Rows.Add(accounts[usedAccounts].Id, accounts[usedAccounts].Username, accounts[usedAccounts].FullName, accounts[usedAccounts].Gender, accounts[usedAccounts].Phone, accounts[usedAccounts].Email, accounts[usedAccounts].Business);
+                if (Form1Static.Leads == null || usedAccounts >= Form1Static.Leads.Count) continue;
+                TableView?.Rows.Add(Form1Static.Leads[usedAccounts].Id, Form1Static.Leads[usedAccounts].Username, Form1Static.Leads[usedAccounts].FullName, Form1Static.Leads[usedAccounts].Gender, Form1Static.Leads[usedAccounts].Phone, Form1Static.Leads[usedAccounts].Email, Form1Static.Leads[usedAccounts].Business);
                 usedAccounts++;
                 Form1Static.pgsCurrent.Value = 0;
                 Form1Static.pgsTotal.Value++;
