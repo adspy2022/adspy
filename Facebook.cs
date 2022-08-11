@@ -22,21 +22,17 @@ namespace Leadopogo.Simulator
 
         private async void txtKeyword_KeyPress(object? sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar != (char)Keys.Enter) return;
+            
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
             if (textBox1.Text.Length < 15)
             {
                 MessageBox.Show("Invalid ad id!");
                 return;
             }
             Form1.GetLeads();
-        }
-        
-        private async Task<RandomUserApiResponse.RandomUserApi> GenerateRandomUser()
-        {
-            var httpClient = new HttpClient();
-            var response = await httpClient.GetAsync("https://randomuser.me/api/");
-            var randomUser = JsonSerializer.DeserializeAsync<RandomUserApiResponse.RandomUserApi>(await response.Content.ReadAsStreamAsync());
-            return await randomUser ?? throw new InvalidOperationException();
         }
     }
 }
