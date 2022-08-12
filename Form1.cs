@@ -133,6 +133,7 @@ namespace Leadopogo.Simulator
             btnReset.Visible = false;
             btnExport.Visible = false;
             dataGridView1.Visible = false;
+            panelFooter.Visible = false;
             AuthToken = null;
             OpenChildForm(new Login());
         }
