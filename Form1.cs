@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Timers;
 using Leadopogo.Simulator.Models;
 using Microsoft.Extensions.Configuration;
+using Timer = System.Timers.Timer;
 
 namespace Leadopogo.Simulator
 {
@@ -12,11 +13,13 @@ namespace Leadopogo.Simulator
     {
         private Form? _activeForm = null;
         public static int ConfigSelection = 0;
-        public static bool Stop = false;
+        private static bool Stop = false;
         public static string? AuthToken = null;
-        public static DataGridView? TableView;
+        private static DataGridView? TableView;
         public static Form1 Form1Static;
         private IList<Account> Leads = new List<Account>();
+        private readonly Timer _creditTimer = new(60000);
+        private int Credits = 0;
 
         public Form1()
         {
@@ -26,6 +29,13 @@ namespace Leadopogo.Simulator
             Login.Form1Instance = this;
             TableView = dataGridView1;
             Form1Static = this;
+            _creditTimer.Elapsed += CreditTimer_Elapsed;
+            _creditTimer.Start();
+        }
+
+        private void CreditTimer_Elapsed(object? sender, ElapsedEventArgs e)
+        {
+            CheckCredits();
         }
 
         private void OpenChildForm(Form childForm)
@@ -146,6 +156,16 @@ namespace Leadopogo.Simulator
             btnExport.Visible = true;
             dataGridView1.Visible = true;
             panelFooter.Visible = true;
+            CheckCredits();
+        }
+
+        private static async void CheckCredits()
+        {
+            var httpClient = new HttpClient();
+            var response = await httpClient.GetAsync("https://adspy.block2play.com/api/leads/credits?token=" + AuthToken);
+            var credits = await response.Content.ReadAsStringAsync();
+            Form1Static.Credits = int.Parse(credits);
+            Form1Static.btnCredits.Text = "Credits: " + credits;
         }
 
         public static async void GetLeads()
@@ -171,6 +191,11 @@ namespace Leadopogo.Simulator
             
             Form1Static.pgsTotal.Maximum = Form1Static.Leads.Count;
             TableView?.Rows.Clear();
+
+            Form1Static.Credits--;
+            Form1Static.btnCredits.Text = "Credits: " + Form1Static.Credits;
+
+            
             var usedAccounts = 0;
             foreach (var t in Form1Static.Leads)
             {
