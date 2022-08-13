@@ -53,6 +53,7 @@
             this.Email = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Business = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelChildForm = new System.Windows.Forms.Panel();
+            this.btnCredits = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panelLogo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -63,6 +64,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(11)))), ((int)(((byte)(7)))), ((int)(((byte)(17)))));
+            this.panel1.Controls.Add(this.btnCredits);
             this.panel1.Controls.Add(this.btn_logout);
             this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.button1);
@@ -340,6 +342,23 @@
             this.panelChildForm.Size = new System.Drawing.Size(844, 315);
             this.panelChildForm.TabIndex = 2;
             // 
+            // btnCredits
+            // 
+            this.btnCredits.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnCredits.FlatAppearance.BorderSize = 0;
+            this.btnCredits.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkMagenta;
+            this.btnCredits.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Purple;
+            this.btnCredits.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCredits.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnCredits.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btnCredits.Location = new System.Drawing.Point(0, 493);
+            this.btnCredits.Name = "btnCredits";
+            this.btnCredits.Size = new System.Drawing.Size(250, 45);
+            this.btnCredits.TabIndex = 6;
+            this.btnCredits.Text = "Credits: 0";
+            this.btnCredits.UseVisualStyleBackColor = true;
+            this.btnCredits.Click += new System.EventHandler(this.btnCredits_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -389,5 +408,6 @@
         private ProgressBar pgsCurrent;
         private ProgressBar pgsTotal;
         private Label label2;
+        private Button btnCredits;
     }
 }

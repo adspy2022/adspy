@@ -200,5 +200,10 @@ namespace Leadopogo.Simulator
         {
             Form1Static.pgsCurrent.Value += 3000;
         }
+
+        private void btnCredits_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new ShopForm());
+        }
     }
 }
