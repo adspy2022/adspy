@@ -31,7 +31,7 @@ namespace Leadopogo.Simulator
         private void txtAmount_TextChanged(object sender, EventArgs e)
         {
             if (!int.TryParse(txtAmount.Text, out _)) return;
-            var price = int.Parse(txtAmount.Text) * 100;
+            var price = int.Parse(txtAmount.Text) * 50;
             txtCost.Text = $"${price:0.00}";
         }
 
