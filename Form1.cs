@@ -87,12 +87,14 @@ namespace Leadopogo.Simulator
 
         private void button1_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new YouTube(this.dataGridView1));
+            //OpenChildForm(new YouTube(this.dataGridView1));
+            MessageBox.Show("You're not allowed to use this feature.");
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new LinkedIn(this.dataGridView1));
+            //OpenChildForm(new LinkedIn(this.dataGridView1));
+            MessageBox.Show("You're not allowed to use this feature.");
         }
 
         private void btnReset_Click(object sender, EventArgs e)
